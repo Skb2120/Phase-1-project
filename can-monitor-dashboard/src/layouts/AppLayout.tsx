@@ -1,12 +1,11 @@
-import { Activity, AlertTriangle, Bell, Cpu, Gauge, GitBranch, LayoutGrid, Power, Radio, Settings, Shield } from 'lucide-react';
+import { Activity, AlertTriangle, Bell, Gauge, GitBranch, LayoutGrid, Power, Radio, Settings, Shield, Wifi } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { useEffect, useState, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
 const navItems = [
   { to: '/', label: 'Dashboard', icon: LayoutGrid },
-  { to: '/navigation', label: 'Navigation', icon: LayoutGrid },
   { to: '/nodes', label: 'Node Status', icon: Gauge },
   { to: '/sensors', label: 'Sensor Data', icon: Activity },
   { to: '/can-monitor', label: 'CAN Monitor', icon: Radio },
@@ -21,35 +20,24 @@ const navItems = [
 export function AppLayout({ children }: { children?: ReactNode }) {
   const location = useLocation();
   const prefersReducedMotion = useReducedMotion();
-  const [now, setNow] = useState(() => new Date());
-
-  useEffect(() => {
-    const timer = window.setInterval(() => setNow(new Date()), 1000);
-    return () => window.clearInterval(timer);
-  }, []);
 
   return (
-    <div className="min-h-screen bg-[#030303] text-slate-100">
-      <div className="relative mx-auto flex min-h-screen max-w-[1900px] flex-col overflow-x-clip border-x border-[#facc15]/25 bg-[#050505] shadow-[0_0_40px_rgba(250,204,21,0.06)] lg:flex-row">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(250,204,21,0.07),transparent_42%),radial-gradient(circle_at_bottom_left,_rgba(249,115,22,0.05),transparent_28%)]" />
+    <div className="min-h-screen bg-[#040b12] text-slate-100">
+      <div className="relative mx-auto flex min-h-screen max-w-[1900px] flex-col overflow-hidden border border-[#facc15]/40 bg-[#050b12] shadow-[0_0_40px_rgba(250,204,21,0.08)] lg:flex-row">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(250,204,21,0.10),transparent_38%),radial-gradient(circle_at_right,_rgba(14,165,233,0.10),transparent_25%)]" />
 
-        <aside className="relative flex w-full shrink-0 flex-col border-b border-[#facc15]/25 bg-black/80 p-3 backdrop-blur-xl lg:sticky lg:top-0 lg:h-screen lg:w-[184px] lg:self-start lg:border-b-0 lg:border-r">
-          <div className="mb-5 flex items-center gap-3 rounded-2xl border border-[#facc15]/30 bg-[#0b0b0b] px-3 py-2 shadow-[0_0_20px_rgba(250,204,21,0.1)]">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#facc15]/60 bg-[#111] shadow-[0_0_20px_rgba(250,204,21,0.4)]">
-              <Cpu className="h-5 w-5 text-[#facc15]" />
+        <aside className="relative w-full shrink-0 border-b border-[#facc15]/25 bg-[#070d16]/90 p-3 backdrop-blur-xl lg:w-[210px] lg:border-b-0 lg:border-r">
+          <div className="mb-5 flex items-center gap-3 rounded-2xl border border-[#facc15]/30 bg-[#0b1320] px-3 py-2 shadow-[0_0_20px_rgba(250,204,21,0.1)]">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#facc15]/60 bg-[#0f172a] shadow-[0_0_20px_rgba(250,204,21,0.4)]">
+              <Wifi className="h-5 w-5 text-[#facc15]" />
             </div>
             <div>
-              <div className="text-[9px] uppercase tracking-[0.2em] text-[#facc15]">CAN Distributed</div>
-              <div className="text-xs font-bold uppercase tracking-wide text-white">Node Monitor</div>
+              <div className="text-[9px] uppercase tracking-[0.28em] text-[#facc15]">System</div>
+              <div className="text-base font-bold uppercase tracking-wide text-white">CAN</div>
             </div>
           </div>
 
-          <div className="mb-4 rounded-xl border border-[#facc15]/25 bg-[#101010] px-3 py-2 text-center shadow-[0_0_12px_rgba(250,204,21,0.08)]">
-            <div className="text-[9px] uppercase tracking-[0.22em] text-slate-400">Admin</div>
-            <div className="mt-1 text-sm font-semibold tracking-[0.08em] text-[#f5f5f5]">Sarathkumar B</div>
-          </div>
-
-          <nav className="grid grid-cols-1 gap-2 lg:block lg:space-y-2">
+          <nav className="grid grid-cols-2 gap-2 lg:block lg:space-y-2">
             {navItems.map(({ to, label, icon: Icon }) => (
               <motion.div
                 key={to}
@@ -61,36 +49,23 @@ export function AppLayout({ children }: { children?: ReactNode }) {
                   to={to}
                   className={({ isActive }) =>
                     cn(
-                      'group flex items-center gap-3 rounded-xl border px-3 py-2.5 text-xs font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#facc15] sm:text-sm',
+                      'flex items-center gap-3 rounded-2xl border px-3 py-2.5 text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#facc15] sm:text-sm',
                       isActive
-                        ? 'border-[#ffcf40]/70 bg-gradient-to-r from-[#7a5b0a] via-[#ba5210] to-[#a61b18] text-[#fff3c4] shadow-[0_0_20px_rgba(249,115,22,0.34),inset_0_1px_0_rgba(255,255,255,0.2)]'
-                        : 'border-transparent bg-[#0b0b0b]/90 text-slate-300 hover:translate-x-1 hover:border-[#facc15]/35 hover:bg-[#17130b] hover:text-white hover:shadow-[0_0_14px_rgba(250,204,21,0.1)]',
+                        ? 'border-[#ff6b3d]/60 bg-gradient-to-r from-[#ff4d4d] to-[#f97316] text-white shadow-[0_0_18px_rgba(249,115,22,0.45)]'
+                        : 'border-transparent bg-[#0b1320]/80 text-slate-300 hover:border-[#facc15]/30 hover:bg-[#101a2b] hover:text-[#facc15]',
                     )
                   }
                 >
-                  {({ isActive }) => <>
-                    <Icon className={cn('h-4 w-4 shrink-0 transition-transform duration-200 group-hover:scale-110', isActive ? 'text-[#ffe48a]' : 'text-[#facc15]')} />
-                    <span className="truncate">{label}</span>
-                  </>}
+                  <Icon className="h-4 w-4 shrink-0" />
+                  <span className="truncate">{label}</span>
                 </NavLink>
               </motion.div>
             ))}
           </nav>
 
-          <motion.div
-            aria-hidden="true"
-            initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            whileHover={prefersReducedMotion ? undefined : { scale: 1.035 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.35, ease: 'easeOut' }}
-            className="mt-3 flex h-28 w-full items-center justify-center lg:mt-auto"
-          >
-            <img src="/luxury-car.png" alt="" className="h-full w-full object-contain drop-shadow-[0_0_14px_rgba(242,169,32,0.24)]" />
-          </motion.div>
-
-          <div className="mt-3 rounded-2xl border border-[#facc15]/30 bg-[#0b0b0b] p-3 shadow-[0_0_12px_rgba(250,204,21,0.08)] lg:mt-2 lg:mb-2">
+          <div className="mt-6 rounded-2xl border border-[#facc15]/30 bg-[#0d1320] p-3 shadow-[0_0_12px_rgba(250,204,21,0.08)] lg:mt-10">
             <div className="mb-2 flex items-center justify-center">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#facc15]/50 bg-[#101010] text-[#facc15] shadow-[0_0_16px_rgba(250,204,21,0.2)]">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#facc15]/50 bg-[#0b1220] text-[#facc15] shadow-[0_0_16px_rgba(250,204,21,0.2)]">
                 <Shield className="h-4 w-4" />
               </div>
             </div>
@@ -111,20 +86,20 @@ export function AppLayout({ children }: { children?: ReactNode }) {
               <path d="M260 18v24m-12-24h24M260 478v24m-12 0h24M18 260h24m-24-12v24m460-12h24m0-12v24" />
               <rect x="162" y="162" width="196" height="196" rx="24" />
               <rect x="190" y="190" width="140" height="140" rx="14" />
-              <path d="M225 225h70v70h-70zM238 238v44m22-44v44m22-44v44M238 260h44" stroke="#facc15" />
+              <path d="M225 225h70v70h-70zM238 238v44m22-44v44m22-44v44M238 260h44" stroke="#38bdf8" />
               <path d="M210 162v-24m25 24v-24m25 24v-24m25 24v-24m25 24v-24m25 24v-24M210 382v-24m25 24v-24m25 24v-24m25 24v-24m25 24v-24m25 24v-24M162 210h-24m24 25h-24m24 25h-24m24 25h-24m24 25h-24m24 25h-24M382 210h-24m24 25h-24m24 25h-24m24 25h-24m24 25h-24m24 25h-24" />
-              <path d="M98 98h50v34m274 290h-50v-34M98 422h50v-34m274-290h-50v34" stroke="#facc15" />
+              <path d="M98 98h50v34m274 290h-50v-34M98 422h50v-34m274-290h-50v34" stroke="#38bdf8" />
               <circle cx="98" cy="98" r="7" fill="#facc15" />
               <circle cx="422" cy="422" r="7" fill="#facc15" />
-              <circle cx="98" cy="422" r="7" fill="#facc15" />
-              <circle cx="422" cy="98" r="7" fill="#facc15" />
+              <circle cx="98" cy="422" r="7" fill="#38bdf8" />
+              <circle cx="422" cy="98" r="7" fill="#38bdf8" />
             </g>
           </svg>
-          <header className="relative z-10 border-b border-[#facc15]/30 bg-black/65 px-4 py-3 backdrop-blur-xl sm:px-5">
+          <header className="relative z-10 border-b border-[#facc15]/30 bg-[#070d16]/70 px-4 py-3 backdrop-blur-xl sm:px-5">
             <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
               <div className="flex items-center gap-3 sm:gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#facc15]/60 bg-[#101010] shadow-[0_0_15px_rgba(250,204,21,0.2)] sm:h-14 sm:w-14">
-                  <Cpu className="h-7 w-7 text-[#facc15] sm:h-8 sm:w-8" strokeWidth={1.6} />
+                <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#facc15]/60 bg-[#0a1220] shadow-[0_0_15px_rgba(250,204,21,0.2)] sm:h-14 sm:w-14">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[#facc15]/60 text-base font-black text-[#facc15] sm:h-9 sm:w-9">⚡</span>
                 </div>
                 <div>
                   <h1 className="text-lg font-black uppercase tracking-[0.08em] text-[#facc15] drop-shadow-[0_0_10px_rgba(250,204,21,0.35)] sm:text-2xl xl:text-3xl">CAN Distributed Node Monitor</h1>
@@ -133,26 +108,24 @@ export function AppLayout({ children }: { children?: ReactNode }) {
               </div>
 
               <div className="flex flex-wrap items-center gap-2 text-[10px] sm:gap-3 sm:text-sm">
-                <div className="flex items-center gap-2 rounded-xl border border-[#10b981]/40 bg-[#07120d] px-2 py-1.5 text-[#6ee7b7] sm:px-3">
-                  <span className="text-[9px] uppercase tracking-[0.12em] text-slate-400 sm:text-[10px]">System Status</span>
+                <div className="flex items-center gap-2 rounded-xl border border-[#10b981]/40 bg-[#0a1e1a] px-2 py-1.5 text-[#6ee7b7] sm:px-3">
                   <span className="h-2.5 w-2.5 rounded-full bg-[#22c55e] shadow-[0_0_12px_rgba(34,197,94,0.8)]" />
                   <span className="font-semibold uppercase tracking-[0.12em] sm:tracking-[0.16em]">Online</span>
                 </div>
-                <div className="flex items-center gap-2 rounded-xl border border-[#facc15]/35 bg-[#151006] px-2 py-1.5 text-[#fcd34d] sm:px-3">
-                  <span className="text-[9px] uppercase tracking-[0.12em] text-slate-400 sm:text-[10px]">CAN Bus</span>
+                <div className="flex items-center gap-2 rounded-xl border border-[#facc15]/35 bg-[#1b160a] px-2 py-1.5 text-[#fcd34d] sm:px-3">
                   <span className="h-2.5 w-2.5 rounded-full bg-[#facc15] shadow-[0_0_12px_rgba(250,204,21,0.8)]" />
                   <span className="font-semibold uppercase tracking-[0.12em] sm:tracking-[0.16em]">Active</span>
                 </div>
-                <div className="flex items-center gap-2 rounded-xl border border-[#facc15]/35 bg-[#101010] px-2 py-1.5 text-slate-200 sm:px-3">
-                  <span className="text-[9px] uppercase tracking-[0.12em] text-slate-400 sm:text-xs">{new Intl.DateTimeFormat(undefined, { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' }).format(now)}</span>
-                  <span className="font-semibold tabular-nums text-[#facc15]">{new Intl.DateTimeFormat(undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).format(now)}</span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-red-500/25 bg-red-950/30 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-[0.18em] text-red-300 sm:text-[10px]"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.9)]" />Live</span>
+                <div className="flex items-center gap-2 rounded-xl border border-[#facc15]/35 bg-[#101a2b] px-2 py-1.5 text-slate-200 sm:px-3">
+                  <span className="text-[9px] uppercase tracking-[0.12em] text-slate-400 sm:text-xs">Fri, 01 Aug 2025</span>
+                  <span className="font-semibold text-[#facc15]">10:24:36</span>
+                  <span className="inline-flex items-center gap-2 rounded-full border border-[#22c55e]/40 bg-[#0a1f1d] px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-[0.18em] text-[#6ee7b7] sm:text-[10px]">Live</span>
                 </div>
               </div>
             </div>
           </header>
 
-          <div className="relative z-10 p-3 sm:p-4 xl:p-4">
+          <div className="relative z-10 p-3 sm:p-4 md:p-5">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={location.pathname}

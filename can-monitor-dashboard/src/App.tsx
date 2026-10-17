@@ -5,7 +5,6 @@ import { CanMonitorPage } from '@/pages/CanMonitorPage';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { EventsPage } from '@/pages/EventsPage';
 import { FaultsPage } from '@/pages/FaultsPage';
-import { NavigationPage } from '@/pages/NavigationPage';
 import { NodesPage } from '@/pages/NodesPage';
 import { SensorsPage } from '@/pages/SensorsPage';
 import { RelayPage } from '@/pages/RelayPage';
@@ -18,7 +17,6 @@ export default function App() {
       <AppLayout>
         <Routes>
           <Route path="/" element={<DashboardPage />} />
-          <Route path="/navigation" element={<NavigationPage />} />
           <Route path="/nodes" element={<NodesPage />} />
           <Route path="/sensors" element={<SensorsPage />} />
           <Route path="/can-monitor" element={<CanMonitorPage />} />

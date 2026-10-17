@@ -2,11 +2,6 @@ import {
   Activity,
   AlertTriangle,
   Bell,
-  Cpu,
-  ArrowRight,
-  CheckCircle2,
-  CircleX,
-  Cog,
   Droplets,
   Gauge,
   Moon,
@@ -17,7 +12,6 @@ import {
   Wifi,
   Waves,
   Move3D,
-  Power,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -61,11 +55,11 @@ const faultRows = [
 ];
 
 const canMessages = [
-  { time: '10:24:36', canId: '0x101', source: 'Node 1', destination: 'Master', type: 'SENSOR', data: '[28.6,67]', status: 'OK' },
-  { time: '10:24:36', canId: '0x102', source: 'Node 2', destination: 'Master', type: 'SENSOR', data: '[32]', status: 'OK' },
-  { time: '10:24:35', canId: '0x103', source: 'Node 3', destination: 'Master', type: 'HEARTBEAT', data: '--', status: 'TIMEOUT' },
-  { time: '10:24:34', canId: '0x104', source: 'Node 4', destination: 'Master', type: 'HEARTBEAT', data: '--', status: 'OK' },
-  { time: '10:24:34', canId: '0x200', source: 'Master', destination: 'Node 4', type: 'TASK_ASSIGN', data: '[MPU]', status: 'OK' },
+  { time: '10:24:36', canId: '0x101', source: 'Node 1', type: 'SENSOR', status: 'OK' },
+  { time: '10:24:35', canId: '0x102', source: 'Node 2', type: 'SENSOR', status: 'OK' },
+  { time: '10:24:35', canId: '0x103', source: 'Node 3', type: 'HEARTBEAT', status: 'TIMEOUT' },
+  { time: '10:24:34', canId: '0x104', source: 'Node 4', type: 'HEARTBEAT', status: 'OK' },
+  { time: '10:24:34', canId: '0x204', source: 'Master', type: 'TASK_ASSIGN', status: 'OK' },
 ];
 
 export function DashboardPage() {
@@ -141,11 +135,11 @@ export function DashboardPage() {
             whileHover={{ y: -3, scale: 1.015 }}
             transition={{ type: 'spring', stiffness: 320, damping: 24 }}
             className={[
-              'rounded-2xl border bg-[rgba(10,10,10,0.82)] p-3 shadow-[0_0_20px_rgba(250,204,21,0.08)] backdrop-blur-xl',
-              tone === 'green' && 'border-[#22c55e]/40 text-emerald-200',
-              tone === 'red' && 'border-[#ff4d4d]/45 text-red-200 shadow-[0_0_18px_rgba(255,35,35,0.12)]',
-              tone === 'amber' && 'border-[#facc15]/40 text-yellow-200',
-              tone === 'blue' && 'border-[#38bdf8]/35 text-sky-200',
+              'rounded-2xl border p-3 shadow-[0_0_20px_rgba(250,204,21,0.08)]',
+              tone === 'green' && 'border-[#22c55e]/40 bg-[#0b1d15] text-emerald-200',
+              tone === 'red' && 'border-[#ff4d4d]/45 bg-[#240d0d] text-red-200',
+              tone === 'amber' && 'border-[#facc15]/40 bg-[#1c1b0e] text-yellow-200',
+              tone === 'blue' && 'border-[#38bdf8]/35 bg-[#091c2d] text-sky-200',
             ].join(' ')}
           >
             <div className="mb-2 flex items-center justify-between">
@@ -158,10 +152,10 @@ export function DashboardPage() {
         ))}
       </div>
 
-      <div className="grid gap-3 xl:grid-cols-[1.7fr_0.9fr]">
-        <div className="dashboard-section rounded-2xl border border-[#facc15]/25 bg-[rgba(10,10,10,0.78)] p-3 shadow-[0_0_24px_rgba(250,204,21,0.08)] backdrop-blur-xl">
+      <div className="grid gap-4 xl:grid-cols-[1.7fr_0.9fr]">
+        <div className="rounded-2xl border border-[#facc15]/25 bg-[#07131d]/90 p-4 shadow-[0_0_24px_rgba(250,204,21,0.08)]">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="flex items-center gap-2 text-xl font-bold tracking-wide text-[#f8fafc] sm:text-2xl"><Shield className="h-5 w-5 text-[#facc15]" />Node Status Overview</h2>
+            <h2 className="text-xl font-bold tracking-wide text-[#f8fafc] sm:text-2xl">Node Status Overview</h2>
             <div className="rounded-full border border-[#22c55e]/40 bg-[#0a1f1d] px-2 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[#6ee7b7]">Live</div>
           </div>
 
@@ -185,22 +179,22 @@ export function DashboardPage() {
                 whileHover={{ y: -4, scale: 1.015 }}
                 transition={{ type: 'spring', stiffness: 320, damping: 24 }}
                 className={[
-                  'relative flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border p-3 backdrop-blur-xl transition-all duration-300',
+                  'relative overflow-hidden rounded-2xl border p-3 backdrop-blur-xl transition-all duration-300',
                   isBackup && backupActive
                     ? 'border-[#22c55e]/55 bg-[linear-gradient(145deg,rgba(8,37,31,0.94),rgba(7,19,29,0.92))] shadow-[0_0_28px_rgba(34,197,94,0.16),inset_0_1px_0_rgba(255,255,255,0.08)]'
                     : isBackup
                       ? 'border-[#facc15]/30 bg-[linear-gradient(145deg,rgba(35,29,12,0.88),rgba(7,19,29,0.94))] shadow-[0_0_24px_rgba(250,204,21,0.1),inset_0_1px_0_rgba(255,255,255,0.08)]'
-                    : 'border-[#facc15]/20 bg-[#0b0b0b]/95 shadow-[0_0_16px_rgba(250,204,21,0.05)]',
+                      : 'border-[#facc15]/20 bg-[#0a1220]/90 shadow-[0_0_16px_rgba(250,204,21,0.05)]',
                 ].join(' ')}
               >
                 {isBackup && <div aria-hidden="true" className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />}
-                <div className="mb-3 flex min-w-0 items-center justify-between gap-1.5">
-                  <div className="flex min-w-0 items-center gap-1.5 text-left">
-                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-[#facc15]/30 bg-[#111] text-[#facc15]">{node.icon}</div>
-                    <div className="whitespace-nowrap text-[9px] font-semibold uppercase tracking-[0.09em] text-slate-300">{node.id}</div>
+                <div className="mb-3 flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 text-left">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#facc15]/30 bg-[#0d1723] text-[#facc15]">{node.icon}</div>
+                    <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">{node.id}</div>
                   </div>
                   <span className={[
-                    'shrink-0 rounded-full border px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-[0.08em]',
+                    'rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.16em]',
                     nodeStatus === 'ONLINE' && 'border-[#22c55e]/35 bg-[#0a1f1d] text-[#6ee7b7]',
                     nodeStatus === 'FAULT' && 'border-[#ff4d4d]/30 bg-[#260d0d] text-[#fca5a5]',
                     nodeStatus === 'STANDBY' && 'border-[#facc15]/35 bg-[#201a0a] text-[#fcd34d]',
@@ -208,8 +202,8 @@ export function DashboardPage() {
                   ].join(' ')}>{nodeStatus}</span>
                 </div>
 
-                <div className="mb-3 min-w-0 rounded-xl border border-[#facc15]/15 bg-[#090909]/90 p-2.5 text-center backdrop-blur-md">
-                  <div className="truncate text-[9px] uppercase tracking-[0.14em] text-slate-300">{isBackup ? 'Universal Backup Node' : node.name}</div>
+                <div className="mb-3 rounded-xl border border-[#facc15]/15 bg-[#091520]/80 p-2.5 text-center backdrop-blur-md">
+                  <div className="text-[10px] uppercase tracking-[0.18em] text-slate-300">{isBackup ? 'Universal Backup Node' : node.name}</div>
                   {isBackup ? (
                     <div className="mt-3 rounded-lg border border-[#facc15]/15 bg-black/20 px-2 py-3">
                       {backupActive ? (
@@ -233,18 +227,18 @@ export function DashboardPage() {
                       )}
                     </div>
                   ) : node.id === 'NODE 1' ? (
-                    <div className="mt-3 grid min-w-0 grid-cols-2 gap-1.5">
-                      <div className="min-w-0 rounded-lg border border-[#facc15]/15 bg-black/20 px-1.5 py-2">
-                        <div className="flex min-w-0 items-center justify-center gap-1 whitespace-nowrap text-[8px] uppercase tracking-[0.06em] text-slate-300">
-                          <Thermometer className="h-3 w-3 shrink-0 text-[#facc15]" />
-                          <span className="truncate">Temp</span>
+                    <div className="mt-3 grid grid-cols-2 gap-2">
+                      <div className="rounded-lg border border-[#facc15]/15 bg-black/20 px-2 py-2">
+                        <div className="flex items-center justify-center gap-1.5 text-[10px] uppercase tracking-wide text-slate-300">
+                          <Thermometer className="h-3.5 w-3.5 shrink-0 text-[#facc15]" />
+                          <span>Temperature</span>
                         </div>
                         <div className="mt-1 text-base font-bold text-[#fcd34d] sm:text-lg">{node.value}</div>
                       </div>
-                      <div className="min-w-0 rounded-lg border border-[#38bdf8]/20 bg-black/20 px-1.5 py-2">
-                        <div className="flex min-w-0 items-center justify-center gap-1 whitespace-nowrap text-[8px] uppercase tracking-[0.06em] text-slate-300">
-                          <Droplets className="h-3 w-3 shrink-0 text-[#38bdf8]" />
-                          <span className="truncate">Humidity</span>
+                      <div className="rounded-lg border border-[#38bdf8]/20 bg-black/20 px-2 py-2">
+                        <div className="flex items-center justify-center gap-1.5 text-[10px] uppercase tracking-wide text-slate-300">
+                          <Droplets className="h-3.5 w-3.5 shrink-0 text-[#38bdf8]" />
+                          <span>Humidity</span>
                         </div>
                         <div className="mt-1 text-base font-bold text-[#7dd3fc] sm:text-lg">{node.secondary}</div>
                       </div>
@@ -257,41 +251,16 @@ export function DashboardPage() {
                   )}
                 </div>
 
-                <div className={node.id === 'NODE 1' ? 'mt-auto grid min-w-0 grid-cols-2 gap-1.5' : 'mt-auto h-12'}>
-                  {node.id === 'NODE 1' ? (
-                    [
-                      { label: 'TEMP', unit: '°C', dataKey: 'value', color: '#facc15', current: '28.6' },
-                      { label: 'HUMIDITY', unit: '%', dataKey: 'value2', color: '#38bdf8', current: '67' },
-                    ].map((series) => (
-                      <div key={series.label} className="min-w-0 rounded-lg border border-white/10 bg-black/45 px-1.5 py-1">
-                        <div className="flex min-w-0 items-center justify-between gap-1 text-[8px] font-semibold uppercase tracking-wide">
-                          <span className="truncate text-slate-400">{series.label}</span>
-                          <span className="shrink-0" style={{ color: series.color }}>{series.current}{series.unit}</span>
-                        </div>
-                        <div className="mt-1 h-10 min-w-0">
-                          <ResponsiveContainer width="100%" height="100%">
-                            <LineChart data={sensorChartData}>
-                              <CartesianGrid stroke="#272727" strokeDasharray="2 3" vertical={false} />
-                              <XAxis hide dataKey="time" />
-                              <YAxis hide domain={['dataMin - 5', 'dataMax + 5']} />
-                              <Tooltip contentStyle={{ background: '#090909', border: '1px solid rgba(250,204,21,.3)', borderRadius: 8, fontSize: 10 }} />
-                              <Line type="monotone" dataKey={series.dataKey} stroke={series.color} strokeWidth={1.8} dot={false} activeDot={{ r: 2 }} />
-                            </LineChart>
-                          </ResponsiveContainer>
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <ResponsiveContainer width="100%" height="100%">
-                      <LineChart data={sensorChartData}>
-                        <CartesianGrid stroke="#334155" strokeDasharray="3 3" vertical={false} />
-                        <XAxis hide dataKey="time" />
-                        <YAxis hide domain={['dataMin - 5', 'dataMax + 5']} />
-                        <Tooltip />
-                        <Line type="monotone" dataKey="value" stroke={node.status === 'FAULT' ? '#ef4444' : '#facc15'} strokeWidth={2} dot={false} />
-                      </LineChart>
-                    </ResponsiveContainer>
-                  )}
+                <div className="h-12">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={sensorChartData}>
+                      <CartesianGrid stroke="#334155" strokeDasharray="3 3" vertical={false} />
+                      <XAxis hide dataKey="time" />
+                      <YAxis hide domain={['dataMin - 5', 'dataMax + 5']} />
+                      <Tooltip />
+                      <Line type="monotone" dataKey="value" stroke={node.status === 'FAULT' ? '#ef4444' : '#facc15'} strokeWidth={2} dot={false} />
+                    </LineChart>
+                  </ResponsiveContainer>
                 </div>
               </motion.div>
             );
@@ -299,132 +268,106 @@ export function DashboardPage() {
           </div>
         </div>
 
-        <div className="dashboard-section rounded-2xl border border-[#facc15]/25 bg-[rgba(10,10,10,0.78)] p-3 shadow-[0_0_24px_rgba(250,204,21,0.08)] backdrop-blur-xl">
+        <div className="rounded-2xl border border-[#facc15]/25 bg-[#07131d]/90 p-4 shadow-[0_0_24px_rgba(250,204,21,0.08)]">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="flex items-center gap-2 text-xl font-bold text-[#f8fafc] sm:text-2xl"><Radio className="h-5 w-5 text-[#facc15]" />System Topology</h2>
+            <h2 className="text-xl font-bold text-[#f8fafc] sm:text-2xl">System Topology</h2>
             <span className="rounded-full border border-[#22c55e]/35 bg-[#0a1f1d] px-2 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[#6ee7b7]">Live</span>
           </div>
 
-          <div className="relative space-y-2.5 overflow-hidden rounded-xl border border-[#facc15]/10 bg-[radial-gradient(ellipse_at_center,rgba(250,204,21,0.06),transparent_70%)] p-2">
-            <div className="mx-auto flex max-w-[210px] items-center justify-center gap-2 rounded-xl border border-[#facc15]/45 bg-[#111] px-4 py-2.5 text-center shadow-[0_0_16px_rgba(250,204,21,0.12)]">
-              <Cpu className="h-6 w-6 text-[#facc15]" />
-              <span className="text-xs font-bold uppercase tracking-[0.12em] text-white">Master ESP32<small className="mt-0.5 block font-medium tracking-normal text-slate-400">CAN Controller</small></span>
+          <div className="space-y-3">
+            <div className="mx-auto flex max-w-[120px] justify-center rounded-xl border border-[#facc15]/35 bg-[#0e1a2a] px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.18em] text-[#facc15] shadow-[0_0_12px_rgba(250,204,21,0.15)]">
+              Master ESP32
             </div>
-            <div className="mx-auto h-4 w-px animate-pulse bg-gradient-to-b from-[#facc15] to-[#38bdf8]" />
-            <div className="mx-auto w-32 rounded-lg border border-[#facc15]/45 bg-[#111] px-3 py-1.5 text-center text-[10px] font-black uppercase tracking-[0.22em] text-[#facc15]">CAN BUS</div>
-            <div className="mx-auto h-3 w-[86%] animate-pulse border-t border-[#facc15]/50" />
-            <div className="grid grid-cols-2 gap-2 xl:grid-cols-4">
-              {[
-                { name: 'Node 1', sensor: 'DHT11', status: 'ONLINE', state: 'online' },
-                { name: 'Node 2', sensor: 'Vibration', status: 'ONLINE', state: 'online' },
-                { name: 'Node 3', sensor: 'MPU6050', status: 'FAULT', state: 'fault' },
-                { name: 'Node 4', sensor: 'Universal Backup', status: backupActive ? 'ACTIVE' : 'STANDBY', state: 'backup' },
-              ].map((node) => (
-                <div key={node.name} className={[
-                  'relative rounded-lg border px-2 py-2 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]',
-                  node.state === 'online' && 'border-emerald-500/60 bg-[#07120d] text-emerald-300',
-                  node.state === 'fault' && 'border-red-500/70 bg-[#170808] text-red-300 shadow-[0_0_12px_rgba(239,68,68,0.12)]',
-                  node.state === 'backup' && 'border-amber-400/70 bg-[#151006] text-amber-300',
-                ].join(' ')}>
-                  <span className="block text-[9px] font-black uppercase tracking-wide text-white">{node.name}</span>
-                  <span className="mt-0.5 block truncate text-[9px] text-slate-300">{node.sensor}</span>
-                  <span className="mt-1 inline-block rounded-full bg-black/40 px-1.5 py-0.5 text-[8px] font-bold tracking-wide">{node.status}</span>
+            <div className="flex justify-center text-[#facc15]">
+              <span className="text-2xl">↓</span>
+            </div>
+            <div className="mx-auto w-32 rounded-xl border border-[#facc15]/35 bg-[#0e1a2a] px-3 py-2 text-center text-xs font-bold uppercase tracking-[0.2em] text-[#38bdf8]">CAN BUS</div>
+            <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-1">
+              {['Node 1', 'Node 2', 'Node 3', 'Node 4'].map((node, index) => (
+                <div
+                  key={node}
+                  className={[
+                    'rounded-xl border px-3 py-2 text-center text-xs font-bold uppercase tracking-[0.14em]',
+                    index === 0 && 'border-[#22c55e]/35 bg-[#0a1a15] text-[#6ee7b7]',
+                    index === 1 && 'border-[#22c55e]/35 bg-[#0a1a15] text-[#6ee7b7]',
+                    index === 2 && 'border-[#ff4d4d]/35 bg-[#210d0d] text-[#fca5a5]',
+                    index === 3 && 'border-[#facc15]/35 bg-[#1d1c0d] text-[#fcd34d]',
+                  ].join(' ')}
+                >
+                  {node}
                 </div>
               ))}
             </div>
-            {backupActive && <div className="text-center text-[9px] font-semibold uppercase tracking-wider text-emerald-300">Failover route active · Node 4 assumes {backupSensorLabel}</div>}
           </div>
         </div>
       </div>
 
-      <div className="grid gap-3 xl:grid-cols-[1.75fr_0.9fr]">
+      <div className="grid gap-4 xl:grid-cols-[1.35fr_0.95fr]">
         <div className="space-y-4">
-          <div className="dashboard-section rounded-2xl border border-[#facc15]/25 bg-[rgba(10,10,10,0.82)] p-4 shadow-[0_0_24px_rgba(250,204,21,0.08)] backdrop-blur-xl">
+          <div className="rounded-2xl border border-[#facc15]/25 bg-[#07131d]/90 p-4 shadow-[0_0_24px_rgba(250,204,21,0.08)]">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="flex items-center gap-2 text-xl font-bold text-[#f8fafc] sm:text-2xl"><Activity className="h-5 w-5 text-[#facc15]" />Real-Time Sensor Data</h2>
+              <h2 className="text-xl font-bold text-[#f8fafc] sm:text-2xl">Real-Time Sensor Data</h2>
               <span className="text-xs text-slate-400 sm:text-sm">Last 1 Hour</span>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="grid gap-3 md:grid-cols-3">
               {[
                 { label: 'Temperature (°C) - Node 1', color: '#facc15', dataKey: 'value', icon: <Thermometer className="h-4 w-4" /> },
                 { label: 'Humidity (%) - Node 1', color: '#38bdf8', dataKey: 'value2', icon: <Activity className="h-4 w-4" /> },
-                { label: 'Vibration (mm/s) - Node 2', color: '#facc15', dataKey: 'value3', icon: <Waves className="h-4 w-4" /> },
-                { label: 'MPU6050 Acceleration', color: '#38bdf8', dataKey: 'value', icon: <Move3D className="h-4 w-4" />, axes: true },
+                { label: 'Vibration (mm/s) - Node 2', color: '#22c55e', dataKey: 'value3', icon: <Waves className="h-4 w-4" /> },
               ].map((chart, index) => (
-                <div key={chart.label} className="transition-all duration-300 hover:-translate-y-0.5 hover:border-[#facc15]/35 hover:shadow-[0_0_18px_rgba(250,204,21,0.1)] rounded-2xl border border-[#facc15]/15 bg-[#090909] p-3">
+                <div key={chart.label} className="rounded-2xl border border-[#facc15]/15 bg-[#091520] p-3">
                   <div className="mb-2 flex items-center gap-2 text-sm text-slate-200">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#facc15]/25 bg-[#111] text-[#facc15]">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#facc15]/25 bg-[#0d1723] text-[#facc15]">
                       {chart.icon}
                     </div>
                     <div>
-                      <div className="text-[10px] uppercase tracking-[0.14em] text-slate-400">{chart.label}</div>
-                      <div className="text-xl font-bold text-white">{index === 0 ? '28.6 °C' : index === 1 ? '67 %' : index === 2 ? '32 mm/s' : (failedPrimary ? 'Node 4 · Active' : 'Node 3 / 4')}</div>
+                      <div className="text-[10px] uppercase tracking-[0.18em] text-slate-400">{chart.label}</div>
+                      <div className="text-xl font-bold text-white">{index === 0 ? '28.6' : index === 1 ? '67%' : '32 mm/s'}</div>
                     </div>
                   </div>
                   <div className="h-20">
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart data={sensorChartData}>
-                        <CartesianGrid stroke="#292929" strokeDasharray="3 3" vertical={false} />
-                        <XAxis dataKey="time" tick={{ fill: '#94a3b8', fontSize: 9 }} axisLine={false} tickLine={false} />
-                        <YAxis hide />
                         <Line type="monotone" dataKey={chart.dataKey} stroke={chart.color} strokeWidth={2} dot={false} />
-                        {chart.axes && <Line type="monotone" dataKey="value2" stroke="#facc15" strokeWidth={1.5} dot={false} />}
-                        {chart.axes && <Line type="monotone" dataKey="value3" stroke="#ef4444" strokeWidth={1.5} dot={false} />}
                         <Tooltip />
                       </LineChart>
                     </ResponsiveContainer>
                   </div>
-                  {chart.axes && failedPrimary && <div className="mt-1 text-[9px] font-semibold uppercase tracking-wide text-emerald-300">Node 3 offline · source switched to Node 4</div>}
                 </div>
               ))}
             </div>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
-            <div className="dashboard-section rounded-2xl border border-[#facc15]/25 bg-[rgba(10,10,10,0.78)] p-3 shadow-[0_0_24px_rgba(250,204,21,0.08)] backdrop-blur-xl">
-              <div className="mb-3 flex min-w-0 items-center justify-between gap-2">
-                <h2 className="flex min-w-0 items-center gap-1.5 text-base font-bold leading-tight text-[#f8fafc] sm:text-lg"><AlertTriangle className="h-4 w-4 shrink-0 text-red-400" /><span>Fault Events</span></h2>
-                <Link to="/faults" className="shrink-0 whitespace-nowrap text-[9px] font-bold uppercase tracking-[0.1em] text-[#facc15] transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#facc15] sm:text-[10px]">View All</Link>
+            <div className="rounded-2xl border border-[#facc15]/25 bg-[#07131d]/90 p-4 shadow-[0_0_24px_rgba(250,204,21,0.08)]">
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="text-xl font-bold text-[#f8fafc] sm:text-2xl">Fault Events</h2>
+                <Link to="/faults" className="text-xs font-bold uppercase tracking-[0.15em] text-[#facc15] transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#facc15]">View All</Link>
               </div>
 
-              <div className="mb-1 grid min-w-0 grid-cols-[0.95fr_0.62fr_1.2fr_0.82fr_0.82fr] gap-1 rounded-lg bg-[#17130b] px-2 py-1.5 text-[8px] font-bold uppercase leading-tight tracking-[0.02em] text-slate-300 sm:text-[9px]">
-                <span className="min-w-0 break-words">Time</span><span className="min-w-0 break-words">Node</span><span className="min-w-0 break-words">Fault Type</span><span className="min-w-0 break-words">Severity</span><span className="min-w-0 break-words">Status</span>
-              </div>
-              <div className="space-y-1.5 text-[9px] leading-tight sm:text-[10px]">
+              <div className="space-y-2 text-[10px] sm:text-xs">
                 {faultRows.map((fault) => (
-                <motion.div whileHover={{ backgroundColor: 'rgba(250,204,21,0.06)' }} transition={{ duration: 0.16 }} key={`${fault.time}-${fault.node}`} className="grid min-w-0 grid-cols-[0.95fr_0.62fr_1.2fr_0.82fr_0.82fr] items-center gap-1 rounded-xl border border-[#facc15]/10 bg-[#0b0b0b] px-2 py-2 text-slate-200">
-                    <span className="min-w-0 whitespace-nowrap text-[8px] sm:text-[9px]">{fault.time}</span>
-                    <span className="min-w-0 break-words">{fault.node}</span>
-                    <span className="min-w-0 break-words [overflow-wrap:anywhere]">{fault.type}</span>
-                    <span className={`min-w-0 break-words [overflow-wrap:anywhere] ${fault.severity === 'CRITICAL' ? 'text-[#fca5a5]' : fault.severity === 'WARNING' ? 'text-[#fcd34d]' : 'text-[#93c5fd]'}`}>{fault.severity}</span>
-                    <span className={`min-w-0 break-words [overflow-wrap:anywhere] ${fault.status === 'ACTIVE' ? 'text-[#fca5a5]' : 'text-[#6ee7b7]'}`}>{fault.status}</span>
+                    <motion.div whileHover={{ x: 2, backgroundColor: 'rgba(250,204,21,0.06)' }} transition={{ duration: 0.16 }} key={`${fault.time}-${fault.node}`} className="grid grid-cols-[1.1fr_1fr_1.2fr_0.8fr_0.8fr] items-center gap-2 rounded-xl border border-[#facc15]/10 bg-[#0a1220] px-3 py-2 text-slate-200">
+                    <span>{fault.time}</span>
+                    <span>{fault.node}</span>
+                    <span>{fault.type}</span>
+                    <span className={fault.severity === 'CRITICAL' ? 'text-[#fca5a5]' : fault.severity === 'WARNING' ? 'text-[#fcd34d]' : 'text-[#93c5fd]'}>{fault.severity}</span>
+                    <span className={fault.status === 'ACTIVE' ? 'text-[#fca5a5]' : 'text-[#6ee7b7]'}>{fault.status}</span>
                     </motion.div>
                 ))}
               </div>
             </div>
 
-            <div className="dashboard-section rounded-2xl border border-[#facc15]/25 bg-[rgba(10,10,10,0.78)] p-3 shadow-[0_0_24px_rgba(250,204,21,0.08)] backdrop-blur-xl">
+            <div className="rounded-2xl border border-[#facc15]/25 bg-[#07131d]/90 p-4 shadow-[0_0_24px_rgba(250,204,21,0.08)]">
               <div className="mb-4 flex items-center justify-between">
-                <h2 className="flex items-center gap-2 text-xl font-bold text-[#f8fafc] sm:text-2xl"><ShieldCheck className="h-5 w-5 text-[#facc15]" />Backup & Recovery</h2>
+                <h2 className="text-xl font-bold text-[#f8fafc] sm:text-2xl">Backup & Recovery</h2>
                 <Link to="/backup" className="text-xs font-bold uppercase tracking-[0.15em] text-[#facc15] transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#facc15]">View Details</Link>
-              </div>
-
-              <div className="mb-3 grid grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr_auto_1fr] items-center gap-1 rounded-xl border border-[#facc15]/10 bg-black/50 px-2 py-3 text-center">
-                <div className="min-w-0"><CircleX className="mx-auto h-7 w-7 text-red-500" /><span className="mt-1 block truncate text-[8px] font-semibold uppercase text-slate-300">Node 3<br />Primary</span></div>
-                <ArrowRight className="h-3 w-3 text-cyan-400" />
-                <div className="min-w-0"><AlertTriangle className="mx-auto h-7 w-7 text-red-400" /><span className="mt-1 block truncate text-[8px] font-semibold uppercase text-slate-300">Fault<br />Detected</span></div>
-                <ArrowRight className="h-3 w-3 text-cyan-400" />
-                <div className="min-w-0"><Cog className="mx-auto h-7 w-7 animate-[spin_8s_linear_infinite] text-amber-400" /><span className="mt-1 block truncate text-[8px] font-semibold uppercase text-slate-300">Task<br />Reassign</span></div>
-                <ArrowRight className="h-3 w-3 text-cyan-400" />
-                <div className="min-w-0"><Shield className="mx-auto h-7 w-7 text-cyan-400" /><span className="mt-1 block truncate text-[8px] font-semibold uppercase text-slate-300">Node 4<br />Backup</span></div>
-                <ArrowRight className="h-3 w-3 text-cyan-400" />
-                <div className="min-w-0"><CheckCircle2 className="mx-auto h-7 w-7 text-emerald-400" /><span className="mt-1 block truncate text-[8px] font-semibold uppercase text-slate-300">System<br />Recovered</span></div>
               </div>
 
               <div className="space-y-3">
                 {assignments.length ? assignments.map((assignment) => (
-                  <div key={assignment.id} className="rounded-xl border border-[#facc15]/15 bg-[#0b0b0b] p-3">
+                  <div key={assignment.id} className="rounded-xl border border-[#facc15]/15 bg-[#0a1220] p-3">
                     <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.16em] text-slate-400 sm:text-xs">
                       <span>{assignment.task_name}</span>
                       <span className="text-[#6ee7b7]">{assignment.status}</span>
@@ -433,7 +376,7 @@ export function DashboardPage() {
                     <div className="text-sm text-slate-200">Backup: {assignment.backup_node}</div>
                   </div>
                 )) : (
-                  <div className="rounded-xl border border-[#facc15]/15 bg-[#0b0b0b] p-3 text-sm text-slate-200">
+                  <div className="rounded-xl border border-[#facc15]/15 bg-[#0a1220] p-3 text-sm text-slate-200">
                     Node 3 failure detected. Backup Node 4 activated and task reassigned successfully.
                   </div>
                 )}
@@ -443,37 +386,34 @@ export function DashboardPage() {
         </div>
 
         <div className="space-y-4">
-          <div className="dashboard-section rounded-2xl border border-[#facc15]/25 bg-[rgba(10,10,10,0.78)] p-3 shadow-[0_0_24px_rgba(250,204,21,0.08)] backdrop-blur-xl">
+          <div className="rounded-2xl border border-[#facc15]/25 bg-[#07131d]/90 p-4 shadow-[0_0_24px_rgba(250,204,21,0.08)]">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="flex items-center gap-2 text-xl font-bold text-[#f8fafc] sm:text-2xl"><Radio className="h-5 w-5 text-[#facc15]" />CAN Bus Monitor</h2>
+              <h2 className="text-xl font-bold text-[#f8fafc] sm:text-2xl">CAN Bus Monitor</h2>
               <Link to="/can-monitor" className="text-xs font-bold uppercase tracking-[0.15em] text-[#facc15] transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#facc15]">View All</Link>
             </div>
 
-            <div className="mb-3 grid grid-cols-4 gap-2 text-center text-[9px] uppercase tracking-[0.12em] text-slate-300 sm:text-[10px]">
-              <div className="rounded-xl border border-[#facc15]/15 bg-[#0b0b0b] p-2"><div className="text-xl font-black text-white sm:text-2xl">245</div><div>Messages</div></div>
-              <div className="rounded-xl border border-[#facc15]/15 bg-[#0b0b0b] p-2"><div className="text-xl font-black text-white sm:text-2xl">2</div><div>Errors</div></div>
-              <div className="rounded-xl border border-[#facc15]/15 bg-[#0b0b0b] p-2"><div className="text-xl font-black text-white sm:text-2xl">0.5%</div><div>Error Rate</div></div>
-              <div className="rounded-xl border border-emerald-500/25 bg-[#07120d] p-2"><div className="flex items-center justify-center gap-1 text-base font-black text-emerald-300 sm:text-xl"><span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />ONLINE</div><div>Bus Status</div></div>
+            <div className="mb-4 grid grid-cols-3 gap-2 text-center text-[10px] uppercase tracking-[0.16em] text-slate-300 sm:text-xs">
+              <div className="rounded-xl border border-[#facc15]/15 bg-[#0a1220] p-2"><div className="text-xl font-black text-white sm:text-2xl">245</div><div>Messages</div></div>
+              <div className="rounded-xl border border-[#facc15]/15 bg-[#0a1220] p-2"><div className="text-xl font-black text-white sm:text-2xl">2</div><div>Errors</div></div>
+              <div className="rounded-xl border border-[#facc15]/15 bg-[#0a1220] p-2"><div className="text-xl font-black text-white sm:text-2xl">0.5%</div><div>Error Rate</div></div>
             </div>
 
-            <div className="overflow-x-auto rounded-xl border border-[#facc15]/10">
-              <div className="grid min-w-[570px] grid-cols-[0.9fr_0.55fr_0.7fr_0.72fr_0.86fr_0.75fr_0.58fr] gap-1 bg-[#17130b] px-2 py-1.5 text-[9px] font-bold uppercase tracking-wide text-slate-300">
-                <span>Time</span><span>CAN ID</span><span>Source</span><span>Dest.</span><span>Type</span><span>Data</span><span>Status</span>
-              </div>
-              <div className="min-w-[570px] divide-y divide-white/5 text-[9px] text-slate-200 sm:text-[10px]">
+            <div className="space-y-2 text-[10px] text-slate-200 sm:text-xs">
               {canMessages.map((message) => (
-                <motion.div whileHover={{ backgroundColor: 'rgba(250,204,21,0.06)' }} transition={{ duration: 0.18 }} key={`${message.time}-${message.canId}`} className="grid grid-cols-[0.9fr_0.55fr_0.7fr_0.72fr_0.86fr_0.75fr_0.58fr] items-center gap-1 bg-black/45 px-2 py-1.5">
-                  <span>{message.time}</span><span className="text-amber-100">{message.canId}</span><span>{message.source}</span><span>{message.destination}</span><span>{message.type}</span><span className="truncate">{message.data}</span>
-                  <span className={message.status === 'TIMEOUT' ? 'text-red-400' : 'text-emerald-300'}>{message.status}</span>
+                <motion.div whileHover={{ x: 2, backgroundColor: 'rgba(56,189,248,0.06)' }} transition={{ duration: 0.16 }} key={`${message.time}-${message.canId}`} className="grid grid-cols-[1.1fr_0.8fr_0.8fr_1fr_0.8fr] items-center gap-2 rounded-xl border border-[#facc15]/10 bg-[#0a1220] px-2 py-2">
+                  <span>{message.time}</span>
+                  <span>{message.canId}</span>
+                  <span>{message.source}</span>
+                  <span>{message.type}</span>
+                  <span className={message.status === 'TIMEOUT' ? 'text-[#fca5a5]' : 'text-[#6ee7b7]'}>{message.status}</span>
                 </motion.div>
               ))}
-              </div>
             </div>
           </div>
 
-          <div className="dashboard-section rounded-2xl border border-[#facc15]/25 bg-[rgba(10,10,10,0.78)] p-3 shadow-[0_0_24px_rgba(250,204,21,0.08)] backdrop-blur-xl">
+          <div className="rounded-2xl border border-[#facc15]/25 bg-[#07131d]/90 p-4 shadow-[0_0_24px_rgba(250,204,21,0.08)]">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="flex items-center gap-2 text-xl font-bold text-[#f8fafc] sm:text-2xl"><Power className="h-5 w-5 text-[#facc15]" />Relay Status</h2>
+              <h2 className="text-xl font-bold text-[#f8fafc] sm:text-2xl">Relay Status</h2>
               <Link to="/relay" className="text-xs font-bold uppercase tracking-[0.15em] text-[#facc15] transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#facc15]">Manual Control</Link>
             </div>
 
@@ -482,14 +422,13 @@ export function DashboardPage() {
                 { name: 'Relay CH1', state: 'ON', route: 'Primary Path' },
                 { name: 'Relay CH2', state: 'OFF', route: 'Backup Path' },
               ].map((relay) => (
-                <div key={relay.name} className="rounded-2xl border border-[#facc15]/15 bg-[#0b0b0b] p-3 text-center">
+                <div key={relay.name} className="rounded-2xl border border-[#facc15]/15 bg-[#0a1220] p-3 text-center">
                   <div className="mb-2 text-[10px] uppercase tracking-[0.18em] text-slate-400">{relay.name}</div>
-                  <div className="flex items-center justify-center gap-2">
-                    <Power className={relay.state === 'ON' ? 'h-9 w-9 text-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.45)]' : 'h-9 w-9 text-amber-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.35)]'} />
-                    <span className={relay.state === 'ON' ? 'text-2xl font-black text-emerald-300' : 'text-2xl font-black text-amber-300'}>{relay.state}</span>
-                  </div>
+                  <div className={[
+                    'mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full border text-lg font-black',
+                    relay.state === 'ON' ? 'border-[#22c55e]/35 bg-[#0a1f1d] text-[#6ee7b7]' : 'border-[#facc15]/35 bg-[#1f1b0e] text-[#fcd34d]',
+                  ].join(' ')}>{relay.state === 'ON' ? 'ON' : 'OFF'}</div>
                   <div className="text-sm font-semibold text-white">{relay.route}</div>
-                  <div className="mt-2 border-t border-white/10 pt-2 text-[9px] text-slate-400">Last change · {relay.state === 'ON' ? '10:22:14' : '10:15:32'}</div>
                 </div>
               ))}
             </div>
