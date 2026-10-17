@@ -1,6 +1,6 @@
-import { Activity, AlertTriangle, Bell, Gauge, GitBranch, LayoutGrid, Power, Radio, Settings, Shield, Wifi } from 'lucide-react';
+import { Activity, AlertTriangle, Bell, CalendarDays, CarFront, Cpu, Gauge, GitBranch, LayoutGrid, Power, Radio, Settings, Shield, Wifi } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import type { ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
@@ -20,24 +20,30 @@ const navItems = [
 export function AppLayout({ children }: { children?: ReactNode }) {
   const location = useLocation();
   const prefersReducedMotion = useReducedMotion();
+  const [now, setNow] = useState(() => new Date());
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setNow(new Date()), 1000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-[#040b12] text-slate-100">
-      <div className="relative mx-auto flex min-h-screen max-w-[1900px] flex-col overflow-hidden border border-[#facc15]/40 bg-[#050b12] shadow-[0_0_40px_rgba(250,204,21,0.08)] lg:flex-row">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(250,204,21,0.10),transparent_38%),radial-gradient(circle_at_right,_rgba(14,165,233,0.10),transparent_25%)]" />
+    <div className="min-h-screen bg-[#050505] text-slate-100">
+      <div className="relative mx-auto flex min-h-screen max-w-[1900px] flex-col overflow-hidden border-x border-[#dba932]/20 bg-[#080909] shadow-[0_0_70px_rgba(0,0,0,0.7)] lg:flex-row">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_8%_0%,_rgba(245,158,11,0.09),transparent_30%),radial-gradient(ellipse_at_100%_60%,_rgba(14,165,233,0.045),transparent_28%)]" />
 
-        <aside className="relative w-full shrink-0 border-b border-[#facc15]/25 bg-[#070d16]/90 p-3 backdrop-blur-xl lg:w-[210px] lg:border-b-0 lg:border-r">
-          <div className="mb-5 flex items-center gap-3 rounded-2xl border border-[#facc15]/30 bg-[#0b1320] px-3 py-2 shadow-[0_0_20px_rgba(250,204,21,0.1)]">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#facc15]/60 bg-[#0f172a] shadow-[0_0_20px_rgba(250,204,21,0.4)]">
-              <Wifi className="h-5 w-5 text-[#facc15]" />
+        <aside className="relative z-20 flex w-full shrink-0 flex-col border-b border-[#dba932]/20 bg-[#090a0a]/95 p-3 backdrop-blur-xl lg:min-h-screen lg:w-[238px] lg:border-b-0 lg:border-r lg:p-4">
+          <div className="mb-3 flex items-center gap-3 rounded-2xl border border-[#dba932]/25 bg-gradient-to-br from-[#17140e] to-[#0b0c0c] px-3 py-3 shadow-[0_12px_35px_rgba(0,0,0,.28)] lg:mb-6">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#f5b923]/50 bg-[#20190c] shadow-[0_0_22px_rgba(245,185,35,.16)]">
+              <Cpu className="h-5 w-5 text-[#ffc43d]" />
             </div>
             <div>
-              <div className="text-[9px] uppercase tracking-[0.28em] text-[#facc15]">System</div>
-              <div className="text-base font-bold uppercase tracking-wide text-white">CAN</div>
+              <div className="text-[9px] uppercase tracking-[0.25em] text-[#d4a83b]">Distributed node</div>
+              <div className="text-sm font-bold uppercase tracking-[0.14em] text-white">CAN monitor</div>
             </div>
           </div>
 
-          <nav className="grid grid-cols-2 gap-2 lg:block lg:space-y-2">
+          <nav className="flex gap-2 overflow-x-auto pb-1 lg:block lg:space-y-1.5 lg:overflow-visible lg:pb-0">
             {navItems.map(({ to, label, icon: Icon }) => (
               <motion.div
                 key={to}
@@ -49,10 +55,10 @@ export function AppLayout({ children }: { children?: ReactNode }) {
                   to={to}
                   className={({ isActive }) =>
                     cn(
-                      'flex items-center gap-3 rounded-2xl border px-3 py-2.5 text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#facc15] sm:text-sm',
+                      'flex min-h-10 min-w-max items-center gap-3 rounded-xl border px-3 py-2.5 text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#facc15] sm:text-sm lg:w-full',
                       isActive
-                        ? 'border-[#ff6b3d]/60 bg-gradient-to-r from-[#ff4d4d] to-[#f97316] text-white shadow-[0_0_18px_rgba(249,115,22,0.45)]'
-                        : 'border-transparent bg-[#0b1320]/80 text-slate-300 hover:border-[#facc15]/30 hover:bg-[#101a2b] hover:text-[#facc15]',
+                        ? 'border-[#f5b923]/45 bg-gradient-to-r from-[#6b4710]/55 to-[#23190b]/50 text-[#ffd875] shadow-[inset_2px_0_0_#f5b923,0_5px_18px_rgba(0,0,0,.22)]'
+                        : 'border-transparent bg-white/[0.025] text-slate-300 hover:border-[#dba932]/25 hover:bg-[#18150e] hover:text-[#ffd875]',
                     )
                   }
                 >
@@ -63,14 +69,16 @@ export function AppLayout({ children }: { children?: ReactNode }) {
             ))}
           </nav>
 
-          <div className="mt-6 rounded-2xl border border-[#facc15]/30 bg-[#0d1320] p-3 shadow-[0_0_12px_rgba(250,204,21,0.08)] lg:mt-10">
-            <div className="mb-2 flex items-center justify-center">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#facc15]/50 bg-[#0b1220] text-[#facc15] shadow-[0_0_16px_rgba(250,204,21,0.2)]">
-                <Shield className="h-4 w-4" />
-              </div>
+          <div className="mt-3 overflow-hidden rounded-2xl border border-[#dba932]/20 bg-gradient-to-b from-[#11100d] to-[#090a0a] lg:mt-auto lg:pt-2">
+            <div className="relative h-24 overflow-hidden lg:h-32">
+              <div className="absolute inset-0 bg-gradient-to-t from-[#090a0a] via-transparent to-transparent" />
+              <img src="/luxury-car.png" alt="Luxury car illustration" className="h-full w-full object-contain object-center opacity-90 transition duration-500 hover:scale-105" />
+              <CarFront className="absolute bottom-2 left-3 h-4 w-4 text-[#f5b923]" />
             </div>
-            <div className="text-center text-[10px] font-semibold uppercase tracking-[0.28em] text-[#facc15]">M.E. PROJECT</div>
-            <div className="mt-1 text-center text-[10px] uppercase tracking-[0.18em] text-slate-400">Embedded Systems & IoT</div>
+            <div className="border-t border-[#dba932]/15 px-3 pb-3 pt-2 text-center">
+              <div className="text-[9px] font-semibold uppercase tracking-[0.24em] text-[#d9ad43]">M.E. Project · Embedded Systems & IoT</div>
+              <div className="mt-1 text-xs font-semibold tracking-wide text-white">Sarathkumar B</div>
+            </div>
           </div>
         </aside>
 
@@ -95,31 +103,32 @@ export function AppLayout({ children }: { children?: ReactNode }) {
               <circle cx="422" cy="98" r="7" fill="#38bdf8" />
             </g>
           </svg>
-          <header className="relative z-10 border-b border-[#facc15]/30 bg-[#070d16]/70 px-4 py-3 backdrop-blur-xl sm:px-5">
+          <header className="relative z-10 border-b border-[#dba932]/20 bg-[#090a0a]/75 px-4 py-4 backdrop-blur-xl sm:px-6 lg:px-8">
             <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
               <div className="flex items-center gap-3 sm:gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#facc15]/60 bg-[#0a1220] shadow-[0_0_15px_rgba(250,204,21,0.2)] sm:h-14 sm:w-14">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[#facc15]/60 text-base font-black text-[#facc15] sm:h-9 sm:w-9">⚡</span>
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#f5b923]/55 bg-[#21190d] shadow-[0_0_24px_rgba(245,185,35,.14)] sm:h-14 sm:w-14">
+                  <Cpu className="h-6 w-6 text-[#ffc43d]" />
                 </div>
                 <div>
-                  <h1 className="text-lg font-black uppercase tracking-[0.08em] text-[#facc15] drop-shadow-[0_0_10px_rgba(250,204,21,0.35)] sm:text-2xl xl:text-3xl">CAN Distributed Node Monitor</h1>
-                  <p className="text-[10px] tracking-[0.09em] text-slate-300 sm:text-sm">Autonomous Fault Detection & Dynamic Backup System</p>
+                  <h1 className="text-lg font-black uppercase tracking-[0.07em] text-[#f6c453] sm:text-2xl xl:text-[28px]">CAN Distributed Node Monitor</h1>
+                  <p className="mt-0.5 text-[10px] tracking-[0.04em] text-slate-400 sm:text-sm">Autonomous Fault Detection & Dynamic Backup System</p>
                 </div>
               </div>
 
               <div className="flex flex-wrap items-center gap-2 text-[10px] sm:gap-3 sm:text-sm">
-                <div className="flex items-center gap-2 rounded-xl border border-[#10b981]/40 bg-[#0a1e1a] px-2 py-1.5 text-[#6ee7b7] sm:px-3">
+                <div className="flex items-center gap-2 rounded-xl border border-emerald-500/25 bg-emerald-950/30 px-2.5 py-2 text-emerald-300 sm:px-3">
                   <span className="h-2.5 w-2.5 rounded-full bg-[#22c55e] shadow-[0_0_12px_rgba(34,197,94,0.8)]" />
-                  <span className="font-semibold uppercase tracking-[0.12em] sm:tracking-[0.16em]">Online</span>
+                  <span><span className="block text-[8px] uppercase tracking-[0.16em] text-slate-500">System status</span><span className="font-semibold uppercase tracking-[0.12em]">Online</span></span>
                 </div>
-                <div className="flex items-center gap-2 rounded-xl border border-[#facc15]/35 bg-[#1b160a] px-2 py-1.5 text-[#fcd34d] sm:px-3">
+                <div className="flex items-center gap-2 rounded-xl border border-[#dba932]/25 bg-[#21190c]/50 px-2.5 py-2 text-[#fcd34d] sm:px-3">
                   <span className="h-2.5 w-2.5 rounded-full bg-[#facc15] shadow-[0_0_12px_rgba(250,204,21,0.8)]" />
-                  <span className="font-semibold uppercase tracking-[0.12em] sm:tracking-[0.16em]">Active</span>
+                  <span><span className="block text-[8px] uppercase tracking-[0.16em] text-slate-500">CAN bus</span><span className="font-semibold uppercase tracking-[0.12em]">Active</span></span>
                 </div>
-                <div className="flex items-center gap-2 rounded-xl border border-[#facc15]/35 bg-[#101a2b] px-2 py-1.5 text-slate-200 sm:px-3">
-                  <span className="text-[9px] uppercase tracking-[0.12em] text-slate-400 sm:text-xs">Fri, 01 Aug 2025</span>
-                  <span className="font-semibold text-[#facc15]">10:24:36</span>
-                  <span className="inline-flex items-center gap-2 rounded-full border border-[#22c55e]/40 bg-[#0a1f1d] px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-[0.18em] text-[#6ee7b7] sm:text-[10px]">Live</span>
+                <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.035] px-2.5 py-2 text-slate-200 sm:px-3">
+                  <CalendarDays className="h-4 w-4 text-[#d9ad43]" />
+                  <span className="text-[9px] text-slate-400 sm:text-xs">{now.toLocaleDateString(undefined, { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                  <span className="font-semibold tabular-nums text-[#f6c453]">{now.toLocaleTimeString()}</span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-950/30 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-[0.14em] text-emerald-300 sm:text-[10px]"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />Live</span>
                 </div>
               </div>
             </div>

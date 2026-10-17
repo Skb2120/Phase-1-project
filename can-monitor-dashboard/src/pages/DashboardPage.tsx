@@ -310,20 +310,25 @@ export function DashboardPage() {
               <span className="text-xs text-slate-400 sm:text-sm">Last 1 Hour</span>
             </div>
 
-            <div className="grid gap-3 md:grid-cols-3">
+            <div className="grid min-w-0 gap-3 md:grid-cols-3">
               {[
-                { label: 'Temperature (°C) - Node 1', color: '#facc15', dataKey: 'value', icon: <Thermometer className="h-4 w-4" /> },
-                { label: 'Humidity (%) - Node 1', color: '#38bdf8', dataKey: 'value2', icon: <Activity className="h-4 w-4" /> },
-                { label: 'Vibration (mm/s) - Node 2', color: '#22c55e', dataKey: 'value3', icon: <Waves className="h-4 w-4" /> },
-              ].map((chart, index) => (
-                <div key={chart.label} className="rounded-2xl border border-[#facc15]/15 bg-[#091520] p-3">
-                  <div className="mb-2 flex items-center gap-2 text-sm text-slate-200">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#facc15]/25 bg-[#0d1723] text-[#facc15]">
+                { label: 'Temperature', node: 'NODE 1', current: '28.6', unit: '°C', color: '#facc15', dataKey: 'value', icon: <Thermometer className="h-4 w-4" /> },
+                  { label: 'Humidity', node: 'NODE 1', current: '67', unit: '%', color: '#38bdf8', dataKey: 'value2', icon: <Droplets className="h-4 w-4" /> },
+                  { label: 'Vibration', node: 'NODE 2', current: '32', unit: 'mm/s', color: '#22c55e', dataKey: 'value3', icon: <Waves className="h-4 w-4" /> },
+              ].map((chart) => (
+                <div key={chart.label} className="min-w-0 rounded-2xl border border-[#facc15]/15 bg-[#090909] p-3">
+                  <div className="mb-2 flex min-w-0 items-center gap-2 text-sm text-slate-200">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[#facc15]/25 bg-[#111] text-[#facc15]">
                       {chart.icon}
                     </div>
-                    <div>
-                      <div className="text-[10px] uppercase tracking-[0.18em] text-slate-400">{chart.label}</div>
-                      <div className="text-xl font-bold text-white">{index === 0 ? '28.6' : index === 1 ? '67%' : '32 mm/s'}</div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex min-w-0 items-center justify-between gap-1">
+                        <div className="min-w-0 truncate text-[9px] font-semibold uppercase tracking-[0.1em] text-slate-300">{chart.label}</div>
+                        <div className="shrink-0 text-[8px] font-medium uppercase tracking-wide text-slate-500">{chart.node}</div>
+                      </div>
+                      <div className="flex min-w-0 items-baseline gap-1 whitespace-nowrap text-xl font-bold leading-tight text-white">
+                        <span>{chart.current}</span><span className="text-xs font-semibold text-slate-300">{chart.unit}</span>
+                      </div>
                     </div>
                   </div>
                   <div className="h-20">

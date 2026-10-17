@@ -41,6 +41,13 @@ Vercel should detect Vite; use `npm run build` as the build command and `dist` a
 the output directory. The `vercel.json` rewrite serves the SPA entry point for
 React Router paths such as `/nodes` and `/settings`.
 
+## Deploying to Netlify
+
+Set the **Base directory** to `can-monitor-dashboard`, the **Build command** to
+`npm run build`, and the **Publish directory** to `dist`. The `public/_redirects`
+file configures Netlify to serve the app entry point for React Router paths such
+as `/nodes` and `/settings`.
+
 ## Demo mode
 
 Set `VITE_DEMO_MODE=true` in `.env` to simulate node telemetry, fault events, and failover actions. Production data can be plugged into the same service layer without changing the UI.
